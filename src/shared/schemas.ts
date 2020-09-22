@@ -43,9 +43,14 @@ export const zPedido = z.object({
 	descricao: z.string().max(255),
 });
 
+export enum TipoPagamento {
+	Boleto = '300',
+	Transferencia = '800',
+}
+
 export const zRequest = z.object({
 	merchant_id: z.string().max(13),
-	meio_pagamento: z.string(),
+	meio_pagamento: z.nativeEnum(TipoPagamento),
 	pedido: zPedido,
 	comprador: zComprador,
 	token_request_confirmacao_pagamento: z.string().optional(),
