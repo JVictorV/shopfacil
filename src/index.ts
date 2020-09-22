@@ -1,2 +1,3 @@
-export { TipoRenderizacao, TipoInscricaoPagador, BoletoRequest, fetchBillet } from './billet';
-export { BilletEnviroments } from './billetEnviroments';
+export * as transferencia from './transfer';
+export * as boleto from './billet';
+export { TipoPagamento } from "./shared/schemas";
