@@ -1,50 +1,5 @@
 import z from 'zod';
-import fetch from 'node-fetch';
-import { BilletEnviroments } from './billetEnviroments';
-import { generateHeader } from './auth';
-
-const zPedido = z.object({
-	numero: z
-		.string()
-		.max(27)
-		.regex(/^[A-Za-z0-9._]*\d+[A-Za-z0-9._-]*$/),
-	valor: z.number().max(9999999999999),
-	descricao: z.string().max(255),
-});
-
-const zEndereco = z.object({
-	cep: z
-		.string()
-		.length(8)
-		.regex(/^\d+$/),
-	logradouro: z.string().max(70),
-	numero: z.number().max(9999999999),
-	complemento: z
-		.string()
-		.max(20)
-		.optional(),
-	bairro: z.string().max(50),
-	cidade: z.string().max(50),
-	uf: z.string().length(2),
-});
-
-const zComprador = z.object({
-	nome: z.string().max(40),
-	documento: z
-		.string()
-		.min(11)
-		.max(14),
-	ip: z
-		.string()
-		.min(16)
-		.max(50)
-		.optional(),
-	user_agent: z
-		.string()
-		.max(255)
-		.optional(),
-	endereco: zEndereco,
-});
+import { zRequest } from '../shared/schemas';
 
 const zBoletoInstrucoes = z.object({
 	instrucao_linha_1: z
@@ -189,31 +144,11 @@ const zBoleto = z.object({
 		.optional(),
 	tipo_renderizacao: z.nativeEnum(TipoRenderizacao).optional(),
 	instrucoes: zBoletoInstrucoes.optional(),
-
 	registro: zBoletoRegistro.optional(),
 });
 
-const zBoletoRequest = z.object({
-	merchant_id: z.string().max(13),
-	meio_pagamento: z.string(),
-	pedido: zPedido,
-	comprador: zComprador,
+export const zBoletoRequest = zRequest.extend({
 	boleto: zBoleto,
-	token_request_confirmacao_pagamento: z.string().optional(),
 });
 
 export type BoletoRequest = z.infer<typeof zBoletoRequest>;
-
-export const fetchBillet = (
-	data: BoletoRequest,
-	{ merchantId, securityKey }: { merchantId: string; securityKey: string },
-	env = BilletEnviroments.PRODUCTION,
-) => {
-	const parsedData = zBoletoRequest.parse(data);
-
-	return fetch(env, {
-		method: 'POST',
-		body: JSON.stringify(parsedData),
-		headers: { ...generateHeader(merchantId, securityKey) },
-	});
-};
