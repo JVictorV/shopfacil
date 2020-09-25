@@ -1,4 +1,4 @@
-import z from 'zod';
+import * as z from 'zod';
 import { zRequest } from '../shared/schemas';
 
 const zBoletoInstrucoes = z.object({
