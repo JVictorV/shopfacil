@@ -32,7 +32,7 @@
 		"useTabs": true,
 		"tabWidth": 4
 	},
-	"name": "shopfacil",
+	"name": "@pagamentos/shopfacil",
 	"author": "JVictorV",
 	"module": "dist/shopfacil.esm.js",
 	"devDependencies": {
@@ -46,5 +46,20 @@
 	"dependencies": {
 		"node-fetch": "^2.6.1",
 		"zod": "^1.11.8"
-	}
+	},
+	"description": "Pacote para integracao do sistema de pagamentos da shopfacil com nodejs",
+	"directories": {
+		"test": "test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/JVictorV/shopfacil.git"
+	},
+	"keywords": [
+		"shopfacil"
+	],
+	"bugs": {
+		"url": "https://github.com/JVictorV/shopfacil/issues"
+	},
+	"homepage": "https://github.com/JVictorV/shopfacil#readme"
 }
